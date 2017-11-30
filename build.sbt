@@ -125,9 +125,6 @@ lazy val loadTestImpl = project("load-test-impl")
 def project(id: String) = Project(id, base = file(id))
   .settings(javacOptions in compile ++= Seq("-encoding", "UTF-8", "-source", "1.8", "-target", "1.8", "-Xlint:unchecked", "-Xlint:deprecation"))
   .settings(jacksonParameterNamesJavacSettings: _*) // applying it to every project even if not strictly needed.
-  .settings(
-    dockerRepository := Some("localhost:5000/chirper")
-  )
 
 
 // See https://github.com/FasterXML/jackson-module-parameter-names
