@@ -93,6 +93,54 @@ rp generate-kubernetes-deployment "activator-lagom-java-chirper/front-end:1.0.0-
 ```
 ##### View Results
 
+> See the resources created for you
+
+```bash
+kubectl --namespace activator-lagom-java-chirper get all
+```
+
+```
+NAME                            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deploy/activityservice-v1-5-0   1         1         1            1           2h
+deploy/chirpservice-v1-5-0      3         3         3            3           2h
+deploy/friendservice-v1-5-0     3         3         3            3           2h
+deploy/front-end-v1-5-0         1         1         1            1           2h
+
+NAME                                   DESIRED   CURRENT   READY     AGE
+rs/activityservice-v1-5-0-659877cd49   1         1         1         2h
+rs/chirpservice-v1-5-0-6548865dc5      3         3         3         2h
+rs/friendservice-v1-5-0-66f688897b     3         3         3         2h
+rs/front-end-v1-5-0-87c5b6b79          1         1         1         2h
+
+NAME                            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+deploy/activityservice-v1-5-0   1         1         1            1           2h
+deploy/chirpservice-v1-5-0      3         3         3            3           2h
+deploy/friendservice-v1-5-0     3         3         3            3           2h
+deploy/front-end-v1-5-0         1         1         1            1           2h
+
+NAME                                   DESIRED   CURRENT   READY     AGE
+rs/activityservice-v1-5-0-659877cd49   1         1         1         2h
+rs/chirpservice-v1-5-0-6548865dc5      3         3         3         2h
+rs/friendservice-v1-5-0-66f688897b     3         3         3         2h
+rs/front-end-v1-5-0-87c5b6b79          1         1         1         2h
+
+NAME                                         READY     STATUS    RESTARTS   AGE
+po/activityservice-v1-5-0-659877cd49-59z4z   1/1       Running   0          2h
+po/chirpservice-v1-5-0-6548865dc5-2fjn6      1/1       Running   0          2h
+po/chirpservice-v1-5-0-6548865dc5-kgbbb      1/1       Running   0          2h
+po/chirpservice-v1-5-0-6548865dc5-zcc6l      1/1       Running   0          2h
+po/friendservice-v1-5-0-66f688897b-d22ph     1/1       Running   0          2h
+po/friendservice-v1-5-0-66f688897b-fvndd     1/1       Running   0          2h
+po/friendservice-v1-5-0-66f688897b-j9tzj     1/1       Running   0          2h
+po/front-end-v1-5-0-87c5b6b79-mvnh8          1/1       Running   0          2h
+
+NAME                  TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                         AGE
+svc/activityservice   ClusterIP   None         <none>        10000/TCP,10001/TCP,10002/TCP   2h
+svc/chirpservice      ClusterIP   None         <none>        10000/TCP,10001/TCP,10002/TCP   2h
+svc/friendservice     ClusterIP   None         <none>        10000/TCP,10001/TCP,10002/TCP   2h
+svc/front-end         ClusterIP   None         <none>        10000/TCP                       2h
+```
+
 > Open the URL this command prints in the browser
 
 `echo "http://$(minikube ip)"`
