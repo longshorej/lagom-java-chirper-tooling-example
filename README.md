@@ -98,7 +98,7 @@ rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/front-end:
 > See the resources created for you
 
 ```bash
-kubectl --namespace activator-lagom-java-chirper get all
+kubectl --namespace lagom-java-chirper-tooling-example get all
 ```
 
 ```
