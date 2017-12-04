@@ -38,7 +38,7 @@ See [Tooling Documentation](https://s3-us-west-2.amazonaws.com/rp-tooling-temp-d
 Note: The current release has a bug on macOS. Run the following command as a work-around:
 
 ```bash
-export DYLD_LIBRARY_PATH="/usr/local/opt/curl/lib:$DYLD_LIBRARY_PATH"
+export DYLD_LIBRARY_PATH="/usr/local/opt/reactive-cli/lib:$DYLD_LIBRARY_PATH"
 ```
 
 ##### Start minikube
