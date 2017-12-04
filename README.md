@@ -31,6 +31,16 @@ To enable the tooling for this project, the following steps were performed:
 
 #### Build & Deploy
 
+##### Install reactive-cli
+
+See [Tooling Documentation](https://s3-us-west-2.amazonaws.com/rp-tooling-temp-docs/deployment-setup.html#install-the-cli)
+
+Note: The current release has a bug on macOS. Run the following command as a work-around:
+
+```bash
+export DYLD_LIBRARY_PATH="/usr/local/opt/curl/lib:$DYLD_LIBRARY_PATH"
+```
+
 ##### Start minikube
 
 `minikube start --memory 8192 --cpus 3`
