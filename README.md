@@ -66,7 +66,7 @@ minikube addons enable ingress
 ##### Deploy chirp-impl
 
 ```
-rp generate-kubernetes-deployment "activator-lagom-java-chirper/chirp-impl:1.0.0-SNAPSHOT" \
+rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/chirp-impl:1.0.0-SNAPSHOT" \
   --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme1" \
   --external-service cas_native=_cql._tcp.cassandra-cassandra.cassandra.svc.cluster.local \
   --pod-controller-replicas 3 | kubectl apply -f -
@@ -75,7 +75,7 @@ rp generate-kubernetes-deployment "activator-lagom-java-chirper/chirp-impl:1.0.0
 ##### Deploy friend-impl
 
 ```
-rp generate-kubernetes-deployment "activator-lagom-java-chirper/friend-impl:1.0.0-SNAPSHOT" \
+rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/friend-impl:1.0.0-SNAPSHOT" \
   --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme2" \
   --external-service cas_native=_cql._tcp.cassandra-cassandra.cassandra.svc.cluster.local \
   --pod-controller-replicas 3 | kubectl apply -f -
@@ -84,13 +84,13 @@ rp generate-kubernetes-deployment "activator-lagom-java-chirper/friend-impl:1.0.
 ##### Deploy activity-stream-impl
 
 ```
-rp generate-kubernetes-deployment "activator-lagom-java-chirper/activity-stream-impl:1.0.0-SNAPSHOT" \
+rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/activity-stream-impl:1.0.0-SNAPSHOT" \
   --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme3" | kubectl apply -f -
 ```
 
 ##### Deploy front-end
 ```
-rp generate-kubernetes-deployment "activator-lagom-java-chirper/front-end:1.0.0-SNAPSHOT" \
+rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/front-end:1.0.0-SNAPSHOT" \
   --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme4" | kubectl apply -f -
 ```
 ##### View Results
