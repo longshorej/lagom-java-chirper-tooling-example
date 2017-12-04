@@ -41,7 +41,7 @@ To enable the tooling for this project, the following steps were performed:
 
 ##### Enable Ingress Controller
 
-minikube addons enable ingress
+`minikube addons enable ingress`
 
 ##### Install Helm in the Minikube
 
