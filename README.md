@@ -47,6 +47,8 @@ minikube addons enable ingress
 
 `helm init`
 
+`helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/`
+
 ##### Install Cassandra
 
 > You will have to wait a minute for helm to initialize. This command should suceed after a minute or so.
