@@ -21,9 +21,9 @@ A Lagom Java example showcasing a Twitter-like application
 
 To enable the tooling for this project, the following steps were performed:
 
-1) Add to `plugins.sbt`:
+1) Add to `project/plugins.sbt`:
  
-`addSbtPlugin("com.lightbend.rp" % "sbt-reactive-app" % "0.3.1")`
+`addSbtPlugin("com.lightbend.rp" % "sbt-reactive-app" % "0.3.3")`
 
 2) For each `impl` project, do the following in `build.sbt`:
 
