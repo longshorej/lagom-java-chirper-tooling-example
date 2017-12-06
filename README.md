@@ -35,13 +35,11 @@ To enable the tooling for this project, the following steps were performed:
 
 See [Tooling Documentation](https://s3-us-west-2.amazonaws.com/rp-tooling-temp-docs/deployment-setup.html#install-the-cli)
 
-Note: The current release has a bug on macOS. Run the following command as a work-around:
-
-```bash
-export DYLD_LIBRARY_PATH="/usr/local/opt/reactive-cli/lib:$DYLD_LIBRARY_PATH"
-```
+Ensure you're using `reactive-cli` 0.4.1 or newer. You can check the version with `rp version`.
 
 ##### Start minikube
+
+> It's recommended to use Kubernetes 1.8 or newer so make sure your Minikube is up-to-date. If necessary, you can completely reset/delete your Minikube via `minikube delete && rm -rf ~/.minikube`
 
 `minikube start --memory 8192 --cpus 3`
 
@@ -75,6 +73,8 @@ export DYLD_LIBRARY_PATH="/usr/local/opt/reactive-cli/lib:$DYLD_LIBRARY_PATH"
 
 ##### Deploy chirp-impl
 
+> Using Kubernetes 1.7 or older? You'll have to provide the `--pod-controller-api-version apps/v1beta1` flag to `rp`
+
 ```
 rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/chirp-impl:1.0.0-SNAPSHOT" \
   --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme1" \
@@ -83,6 +83,8 @@ rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/chirp-impl
 ```
 
 ##### Deploy friend-impl
+
+> Using Kubernetes 1.7 or older? You'll have to provide the `--pod-controller-api-version apps/v1beta1` flag to `rp`
 
 ```
 rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/friend-impl:1.0.0-SNAPSHOT" \
@@ -93,12 +95,17 @@ rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/friend-imp
 
 ##### Deploy activity-stream-impl
 
+> Using Kubernetes 1.7 or older? You'll have to provide the `--pod-controller-api-version apps/v1beta1` flag to `rp`
+
 ```
 rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/activity-stream-impl:1.0.0-SNAPSHOT" \
   --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme3" | kubectl apply -f -
 ```
 
 ##### Deploy front-end
+
+> Using Kubernetes 1.7 or older? You'll have to provide the `--pod-controller-api-version apps/v1beta1` flag to `rp`
+
 ```
 rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/front-end:1.0.0-SNAPSHOT" \
   --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme4" | kubectl apply -f -
@@ -108,7 +115,7 @@ rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/front-end:
 > See the resources created for you
 
 ```bash
-kubectl --namespace lagom-java-chirper-tooling-example get all
+kubectl get all
 ```
 
 ```
