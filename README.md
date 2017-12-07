@@ -23,7 +23,7 @@ To enable the tooling for this project, the following steps were performed:
 
 1) Add to `project/plugins.sbt`:
  
-`addSbtPlugin("com.lightbend.rp" % "sbt-reactive-app" % "0.3.3")`
+`addSbtPlugin("com.lightbend.rp" % "sbt-reactive-app" % "0.4.0")`
 
 2) For each `impl` project, do the following in `build.sbt`:
 
@@ -35,7 +35,7 @@ To enable the tooling for this project, the following steps were performed:
 
 See [Tooling Documentation](https://s3-us-west-2.amazonaws.com/rp-tooling-temp-docs/deployment-setup.html#install-the-cli)
 
-Ensure you're using `reactive-cli` 0.4.1 or newer. You can check the version with `rp version`.
+Ensure you're using `reactive-cli` 0.4.2 or newer. You can check the version with `rp version`.
 
 ##### Start minikube
 
