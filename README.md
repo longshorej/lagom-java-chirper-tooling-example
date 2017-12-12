@@ -57,59 +57,68 @@ Ensure you're using `reactive-cli` 0.4.2 or newer. You can check the version wit
 
 `helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/`
 
-##### Install Cassandra
+##### Install Reactive Sandbox
+
+The `reactive-sandbox` includes development-grade installations of Cassandra, Elasticsearch, Kafka, and ZooKeeper. It's packaged as a Helm chart for easy installation into your Kubernetes cluster.
 
 > You will have to wait a minute for helm to initialize. This command should suceed after a minute or so.
 
-`helm install --namespace cassandra -n cassandra --set config.cluster_size=1 incubator/cassandra`
+`helm install lightbend-helm-charts/reactive-sandbox --name reactive-sandbox`
 
 ##### Build Project
 
 `sbt clean docker:publishLocal`
 
+
 ##### View Images
 
 `docker images`
 
-##### Deploy chirp-impl
+##### Deploy Projects
 
-> Using Kubernetes 1.7 or older? You'll have to provide the `--pod-controller-api-version apps/v1beta1` flag to `rp`
+First, ensure `reactive-sandbox` is ready. It should indicate `1` in the AVAILABLE column:
 
-```
+`kubectl get deploy/reactive-sandbox`
+
+Now, you can start deploying the projects:
+
+```bash
+# Be sure to change these secret values
+
+chirp_secret="youmustchangeme"
+friend_secret="youmustchangeme"
+activity_stream_secret="youmustchangeme"
+front_end_secret="youmustchangeme"
+
+# Default address for reactive-sandbox, change if using external Cassandra
+
+cassandra_svc="_cql._tcp.reactive-sandbox-cassandra.default.svc.cluster.local"
+
+# deploy chirp-impl
+
 rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/chirp-impl:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme1" \
-  --external-service cas_native=_cql._tcp.cassandra-cassandra.cassandra.svc.cluster.local \
-  --pod-controller-replicas 3 | kubectl apply -f -
-```
+  --env JAVA_OPTS="-Dplay.crypto.secret=$chirp_secret" \
+  --external-service "cas_native=$cassandra_svc" \
+  --pod-controller-replicas 2 | kubectl apply -f -
 
-##### Deploy friend-impl
+# deploy friend-impl
 
-> Using Kubernetes 1.7 or older? You'll have to provide the `--pod-controller-api-version apps/v1beta1` flag to `rp`
-
-```
 rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/friend-impl:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme2" \
-  --external-service cas_native=_cql._tcp.cassandra-cassandra.cassandra.svc.cluster.local \
-  --pod-controller-replicas 3 | kubectl apply -f -
-```
+  --env JAVA_OPTS="-Dplay.crypto.secret=$friend_secret" \
+  --external-service "cas_native=$cassandra_svc" \
+  --pod-controller-replicas 2 | kubectl apply -f -
+  
+# deploy activity-stream-impl
 
-##### Deploy activity-stream-impl
-
-> Using Kubernetes 1.7 or older? You'll have to provide the `--pod-controller-api-version apps/v1beta1` flag to `rp`
-
-```
 rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/activity-stream-impl:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme3" | kubectl apply -f -
-```
+  --env JAVA_OPTS="-Dplay.crypto.secret=$activity_stream_secret" | kubectl apply -f -
+  
+# deploy front-end
 
-##### Deploy front-end
-
-> Using Kubernetes 1.7 or older? You'll have to provide the `--pod-controller-api-version apps/v1beta1` flag to `rp`
-
-```
 rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/front-end:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.crypto.secret=youmustchangeme4" | kubectl apply -f -
+  --env JAVA_OPTS="-Dplay.crypto.secret=$front_end_secret" | kubectl apply -f -
 ```
+
 ##### View Results
 
 > See the resources created for you
