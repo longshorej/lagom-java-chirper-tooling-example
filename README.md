@@ -101,11 +101,7 @@ reactive-sandbox   1         1         1            1           1m
 
 ##### Deploy Projects
 
-First, ensure `reactive-sandbox` is ready. It should indicate `1` in the AVAILABLE column:
-
-`kubectl get deploy/reactive-sandbox`
-
-Now, you can start deploying the projects:
+Finally, you're ready to deploy the services. Be sure to adjust the secret variables and cassanda service address as necessary.
 
 ```bash
 # Be sure to change these secret values
