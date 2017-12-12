@@ -39,7 +39,7 @@ Ensure you're using `reactive-cli` 0.4.2 or newer. You can check the version wit
 
 ##### Start minikube
 
-> It's recommended to use Kubernetes 1.8 or newer so make sure your Minikube is up-to-date. If necessary, you can completely reset/delete your Minikube via `minikube delete && rm -rf ~/.minikube`
+> It's recommended to use Kubernetes 1.8 or newer so make sure your Minikube is up-to-date. If necessary, you can delete your Minikube and start refresh via `minikube delete`
 
 `minikube start --memory 8192 --cpus 3`
 
