@@ -51,19 +51,44 @@ Ensure you're using `reactive-cli` 0.4.2 or newer. You can check the version wit
 
 `minikube addons enable ingress`
 
-##### Install Helm in the Minikube
-
-`helm init`
-
-`helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/`
-
 ##### Install Reactive Sandbox
 
-The `reactive-sandbox` includes development-grade installations of Cassandra, Elasticsearch, Kafka, and ZooKeeper. It's packaged as a Helm chart for easy installation into your Kubernetes cluster.
+The `reactive-sandbox` includes development-grade installations of Cassandra, Elasticsearch, Kafka, and ZooKeeper. It's packaged as a Helm chart for easy installation into your Kubernetes cluster. It's a great way to provide the cassandra dependency.
 
-> You will have to wait a minute for helm to initialize. This command should suceed after a minute or so.
+> Note that if you have an external Cassanda cluster, you can skip this step. You'll need to change the `cassandra_svc` variable (defined below) if this is the case.
 
-`helm install lightbend-helm-charts/reactive-sandbox --name reactive-sandbox`
+```bash
+helm init
+helm repo add lightbend-helm-charts https://lightbend.github.io/helm-charts
+helm update
+```
+
+Verify that Helm is available (this takes a minute or two):
+
+```bash
+kubectl --namespace kube-system get deploy/tiller-deploy
+```
+
+```
+NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+tiller-deploy   1         1         1            1           3m
+```
+
+Install the sandbox:
+```bash
+helm install lightbend-helm-charts/reactive-sandbox --name reactive-sandbox
+```
+
+Verify that it is available (this takes a minute or two):
+
+```bash
+kubectl get deploy/reactive-sandbox
+```
+
+```
+NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+reactive-sandbox   1         1         1            1           1m
+```
 
 ##### Build Project
 
