@@ -17,25 +17,13 @@ A Lagom Java example showcasing a Twitter-like application
 * [Minikube](https://github.com/kubernetes/minikube)
 * [SBT](http://www.scala-sbt.org/)
 
-#### A note on project setup
-
-To enable the tooling for this project, the following steps were performed:
-
-1) Add to `project/plugins.sbt`:
- 
-`addSbtPlugin("com.lightbend.rp" % "sbt-reactive-app" % "0.4.0")`
-
-2) For each `impl` project, do the following in `build.sbt`:
-
-`project("my-service-impl").enablePlugins(SbtReactiveAppPlugin)`
-
 #### Build & Deploy
 
 ##### Install reactive-cli
 
 See [Tooling Documentation](https://s3-us-west-2.amazonaws.com/rp-tooling-temp-docs/deployment-setup.html#install-the-cli)
 
-Ensure you're using `reactive-cli` 0.4.2 or newer. You can check the version with `rp version`.
+Ensure you're using `reactive-cli` 0.5.1 or newer. You can check the version with `rp version`.
 
 ##### Start minikube
 
