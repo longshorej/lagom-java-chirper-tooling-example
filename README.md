@@ -30,7 +30,7 @@ Ensure you're using `reactive-cli` 0.5.1 or newer. You can check the version wit
 > If you have an existing Minikube, you can delete your old one start fresh via `minikube delete`
 
 ```bash
-minikube start
+minikube start --memory 6000
 ```
 
 ##### Setup Docker engine context to point to Minikube
@@ -47,7 +47,7 @@ minikube addons enable ingress
 
 ##### Install Reactive Sandbox
 
-The `reactive-sandbox` includes development-grade installations of Cassandra, Elasticsearch, Kafka, and ZooKeeper. It's packaged as a Helm chart for easy installation into your Kubernetes cluster. It's a great way to provide the cassandra dependency.
+The `reactive-sandbox` includes development-grade installations of Cassandra, Elasticsearch, Kafka, and ZooKeeper. It's packaged as a Helm chart for easy installation into your Kubernetes cluster.
 
 > Note that if you have an external Cassanda cluster, you can skip this step. You'll need to change the `cassandra_svc` variable (defined below) if this is the case.
 
@@ -190,5 +190,5 @@ svc/front-end         ClusterIP   None         <none>        10000/TCP          
 > Open the URL this command prints in the browser
 
 ```bash
-echo "http://$(minikube ip)"`
+echo "http://$(minikube ip)"
 ```
