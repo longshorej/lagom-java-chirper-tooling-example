@@ -39,17 +39,23 @@ Ensure you're using `reactive-cli` 0.4.2 or newer. You can check the version wit
 
 ##### Start minikube
 
-> It's recommended to use Kubernetes 1.8 or newer so make sure your Minikube is up-to-date. If necessary, you can delete your Minikube and start refresh via `minikube delete`
+> If you have an existing Minikube, you can delete your old one start fresh via `minikube delete`
 
-`minikube start --memory 8192 --cpus 3`
+```bash
+minikube start
+```
 
 ##### Setup Docker engine context to point to Minikube
 
-`eval $(minikube docker-env)`
+```bash
+eval $(minikube docker-env)
+```
 
 ##### Enable Ingress Controller
 
-`minikube addons enable ingress`
+```bash
+minikube addons enable ingress
+```
 
 ##### Install Reactive Sandbox
 
@@ -92,12 +98,15 @@ reactive-sandbox   1         1         1            1           1m
 
 ##### Build Project
 
-`sbt clean docker:publishLocal`
-
+```bash
+sbt clean docker:publishLocal
+```
 
 ##### View Images
 
-`docker images`
+```bash
+docker images
+```
 
 ##### Deploy Projects
 
@@ -192,4 +201,6 @@ svc/front-end         ClusterIP   None         <none>        10000/TCP          
 
 > Open the URL this command prints in the browser
 
-`echo "http://$(minikube ip)"`
+```bash
+echo "http://$(minikube ip)"`
+```
