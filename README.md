@@ -68,9 +68,10 @@ NAME            DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 tiller-deploy   1         1         1            1           3m
 ```
 
-Install the sandbox:
+Install the sandbox. Since Chirper only uses Cassandra, we're disabling the other services but you can leave them enabled by omitting the `set` flag if you wish.
+
 ```bash
-helm install lightbend-helm-charts/reactive-sandbox --name reactive-sandbox
+helm install lightbend-helm-charts/reactive-sandbox --name reactive-sandbox --set elasticsearch.enabled=0,kafka.enabled=0,zookeeper.enabled=0
 ```
 
 Verify that it is available (this takes a minute or two):
