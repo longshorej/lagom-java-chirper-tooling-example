@@ -23,7 +23,7 @@ A Lagom Java example showcasing a Twitter-like application
 
 See [Tooling Documentation](https://s3-us-west-2.amazonaws.com/rp-tooling-temp-docs/deployment-setup.html#install-the-cli)
 
-Ensure you're using `reactive-cli` 0.5.1 or newer. You can check the version with `rp version`.
+Ensure you're using `reactive-cli` 0.8.0 or newer. You can check the version with `rp version`.
 
 ##### Start minikube
 
