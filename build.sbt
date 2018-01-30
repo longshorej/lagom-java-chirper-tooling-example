@@ -4,10 +4,7 @@ import java.nio.file.StandardCopyOption
 organization in ThisBuild := "com.lightbend.lagom.sample.chirper"
 
 // the Scala version that will be used for cross-compiled libraries
-scalaVersion in ThisBuild := "2.11.12"
-
-// SCALA SUPPORT: Remove the line below
-EclipseKeys.projectFlavor in Global := EclipseProjectFlavor.Java
+scalaVersion in ThisBuild := "2.12.4"
 
 lazy val buildVersion = sys.props.getOrElse("buildVersion", "1.0.0-SNAPSHOT")
 
@@ -15,7 +12,6 @@ version in ThisBuild := buildVersion
 
 lazy val friendApi = project("friend-api")
   .settings(
-    version := buildVersion,
     libraryDependencies += lagomJavadslApi
   )
 
@@ -52,7 +48,6 @@ lazy val chirpImpl = project("chirp-impl")
 
 lazy val activityStreamApi = project("activity-stream-api")
   .settings(
-    version in Docker := buildVersion,
     libraryDependencies += lagomJavadslApi
   )
   .dependsOn(chirpApi)
@@ -73,9 +68,10 @@ lazy val frontEnd = project("front-end")
     routesGenerator := InjectedRoutesGenerator,
     libraryDependencies ++= Seq(
       "org.webjars" % "foundation" % "5.5.2",
-      "org.webjars" %% "webjars-play" % "2.5.0",
+      "org.webjars" %% "webjars-play" % "2.6.3",
       lagomJavadslClient
     ),
+
     includeFilter in webpack := "*.js" || "*.jsx",
     compile in Compile := (compile in Compile).dependsOn(webpack.toTask("")).value,
     mappings in (Compile, packageBin) := {
@@ -107,13 +103,13 @@ lazy val frontEnd = project("front-end")
       (resourceDirectory in Assets).value,
 
     WebpackKeys.envVars in webpack += "BUILD_SYSTEM" -> "sbt",
+    httpIngressPaths := Seq("/")
 
-    // Remove to use Scala IDE
-    EclipseKeys.createSrc := EclipseCreateSrc.ValueSet(EclipseCreateSrc.ManagedClasses, EclipseCreateSrc.ManagedResources)
   )
 
 lazy val loadTestApi = project("load-test-api")
   .settings(
+    version := buildVersion,
     libraryDependencies += lagomJavadslApi
   )
 
@@ -124,7 +120,6 @@ lazy val loadTestImpl = project("load-test-impl")
 def project(id: String) = Project(id, base = file(id))
   .settings(javacOptions in compile ++= Seq("-encoding", "UTF-8", "-source", "1.8", "-target", "1.8", "-Xlint:unchecked", "-Xlint:deprecation"))
   .settings(jacksonParameterNamesJavacSettings: _*) // applying it to every project even if not strictly needed.
-
 
 // See https://github.com/FasterXML/jackson-module-parameter-names
 lazy val jacksonParameterNamesJavacSettings = Seq(

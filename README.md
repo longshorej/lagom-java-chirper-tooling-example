@@ -115,27 +115,27 @@ cassandra_svc="_cql._tcp.reactive-sandbox-cassandra.default.svc.cluster.local"
 
 # deploy chirp-impl
 
-rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/chirp-impl:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.crypto.secret=$chirp_secret" \
+rp generate-kubernetes-resources "lagom-java-chirper-tooling-example/chirp-impl:1.0.0-SNAPSHOT" \
+  --env JAVA_OPTS="-Dplay.http.secret.key=$chirp_secret -Dplay.filters.hosts.allowed.0=$(minikube ip)" \
   --external-service "cas_native=$cassandra_svc" \
   --pod-controller-replicas 2 | kubectl apply -f -
 
 # deploy friend-impl
 
-rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/friend-impl:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.crypto.secret=$friend_secret" \
+rp generate-kubernetes-resources "lagom-java-chirper-tooling-example/friend-impl:1.0.0-SNAPSHOT" \
+  --env JAVA_OPTS="-Dplay.http.secret.key=$friend_secret -Dplay.filters.hosts.allowed.0=$(minikube ip)" \
   --external-service "cas_native=$cassandra_svc" \
   --pod-controller-replicas 2 | kubectl apply -f -
   
 # deploy activity-stream-impl
 
-rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/activity-stream-impl:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.crypto.secret=$activity_stream_secret" | kubectl apply -f -
+rp generate-kubernetes-resources "lagom-java-chirper-tooling-example/activity-stream-impl:1.0.0-SNAPSHOT" \
+  --env JAVA_OPTS="-Dplay.http.secret.key=$activity_stream_secret -Dplay.filters.hosts.allowed.0=$(minikube ip)" | kubectl apply -f -
   
 # deploy front-end
 
-rp generate-kubernetes-deployment "lagom-java-chirper-tooling-example/front-end:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.crypto.secret=$front_end_secret" | kubectl apply -f -
+rp generate-kubernetes-resources "lagom-java-chirper-tooling-example/front-end:1.0.0-SNAPSHOT" \
+  --env JAVA_OPTS="-Dplay.http.secret.key=$front_end_secret -Dplay.filters.hosts.allowed.0=$(minikube ip)" | kubectl apply -f -
 ```
 
 ##### View Results
