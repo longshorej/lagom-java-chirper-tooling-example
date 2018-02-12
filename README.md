@@ -17,13 +17,15 @@ A Lagom Java example showcasing a Twitter-like application
 * [Minikube](https://github.com/kubernetes/minikube)
 * [SBT](http://www.scala-sbt.org/)
 
-#### Build & Deploy
+### Build & Deploy
+
+#### 1. Environment Preparation
 
 ##### Install reactive-cli
 
 See [Tooling Documentation](https://s3-us-west-2.amazonaws.com/rp-tooling-temp-docs/deployment-setup.html#install-the-cli)
 
-Ensure you're using `reactive-cli` 0.5.1 or newer. You can check the version with `rp version`.
+Ensure you're using `reactive-cli` 0.9.0 or newer. You can check the version with `rp version`.
 
 ##### Start minikube
 
@@ -45,9 +47,27 @@ eval $(minikube docker-env)
 minikube addons enable ingress
 ```
 
+#### 2a. Development Workflow
+
+> Note that this is an alternative to the Operations workflow documented below.
+
+`sbt-reactive-app` defines a task, `deploy minikube`, that can be used to deploy all aggregated subprojects to
+your running Minikube. It also installs the [Reactive Sandbox](https://github.com/lightbend/reactive-sandbox/) if
+your project needs it, e.g. for Lagom applications that use Cassandra or Kafka.
+
+##### Build and Deploy Project
+
+`sbt> deploy minikube`
+
+Once completed, Chirper and its dependencies should be installed in your cluster. Continue with step 3, Verify Deployment.
+
+#### 2b. Operations Workflow
+
+> Note that this is an alternative to the Development workflow documented above.
+
 ##### Install Reactive Sandbox
 
-The `reactive-sandbox` includes development-grade installations of Cassandra, Elasticsearch, Kafka, and ZooKeeper. It's packaged as a Helm chart for easy installation into your Kubernetes cluster.
+The `reactive-sandbox` includes development-grade (i.e. it will lose your data) installations of Cassandra, Elasticsearch, Kafka, and ZooKeeper. It's packaged as a Helm chart for easy installation into your Kubernetes cluster.
 
 > Note that if you have an external Cassanda cluster, you can skip this step. You'll need to change the `cassandra_svc` variable (defined below) if this is the case.
 
@@ -113,32 +133,53 @@ front_end_secret="youmustchangeme"
 
 cassandra_svc="_cql._tcp.reactive-sandbox-cassandra.default.svc.cluster.local"
 
+# Configure the services to allow requests to the minikube IP (Play's Allowed Hosts Filter)
+
+allowed_host="$(minikube ip)"
+
 # deploy chirp-impl
 
-rp generate-kubernetes-resources "lagom-java-chirper-tooling-example/chirp-impl:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.http.secret.key=$chirp_secret -Dplay.filters.hosts.allowed.0=$(minikube ip)" \
+rp generate-kubernetes-resources "chirp-impl:1.0.0-SNAPSHOT" \
+  --generate-pod-controllers --generate-services \
+  --env JAVA_OPTS="-Dplay.http.secret.key=$chirp_secret -Dplay.filters.hosts.allowed.0=$allowed_host" \
   --external-service "cas_native=$cassandra_svc" \
+  --service-type NodePort \
   --pod-controller-replicas 2 | kubectl apply -f -
 
 # deploy friend-impl
 
-rp generate-kubernetes-resources "lagom-java-chirper-tooling-example/friend-impl:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.http.secret.key=$friend_secret -Dplay.filters.hosts.allowed.0=$(minikube ip)" \
+rp generate-kubernetes-resources "friend-impl:1.0.0-SNAPSHOT" \
+  --generate-pod-controllers --generate-services \
+  --env JAVA_OPTS="-Dplay.http.secret.key=$friend_secret -Dplay.filters.hosts.allowed.0=$allowed_host" \
   --external-service "cas_native=$cassandra_svc" \
   --pod-controller-replicas 2 | kubectl apply -f -
   
 # deploy activity-stream-impl
 
-rp generate-kubernetes-resources "lagom-java-chirper-tooling-example/activity-stream-impl:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.http.secret.key=$activity_stream_secret -Dplay.filters.hosts.allowed.0=$(minikube ip)" | kubectl apply -f -
+rp generate-kubernetes-resources "activity-stream-impl:1.0.0-SNAPSHOT" \
+  --generate-pod-controllers --generate-services \
+  --env JAVA_OPTS="-Dplay.http.secret.key=$activity_stream_secret -Dplay.filters.hosts.allowed.0=$allowed_host" | kubectl apply -f -
   
 # deploy front-end
 
-rp generate-kubernetes-resources "lagom-java-chirper-tooling-example/front-end:1.0.0-SNAPSHOT" \
-  --env JAVA_OPTS="-Dplay.http.secret.key=$front_end_secret -Dplay.filters.hosts.allowed.0=$(minikube ip)" | kubectl apply -f -
+rp generate-kubernetes-resources "front-end:1.0.0-SNAPSHOT" \
+  --generate-pod-controllers --generate-services \
+  --env JAVA_OPTS="-Dplay.http.secret.key=$front_end_secret -Dplay.filters.hosts.allowed.0=$allowed_host" | kubectl apply -f -
+  
+# deploy ingress
+rp generate-kubernetes-resources \
+  --ingress-path-suffix '*' \
+  --generate-ingress --ingress-name chirper \
+  "$registry/chirp-impl:1.0.0-SNAPSHOT" \
+  "$registry/friend-impl:1.0.0-SNAPSHOT" \
+  "$registry/activity-stream-impl:1.0.0-SNAPSHOT" \
+  "$registry/front-end:1.0.0-SNAPSHOT" | kubectl apply -f -
 ```
 
-##### View Results
+#### 3. Verify Deployment
+
+Now that you've deployed your services (using either the Developer or Operations workflows), you can use `kubectl` to 
+inspect the resources, and your favorite web browser to use the application.
 
 > See the resources created for you
 
