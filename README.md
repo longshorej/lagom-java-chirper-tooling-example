@@ -1,5 +1,7 @@
 # lagom-java-chirper-example
 
+> This project is an example for [Lightbend Reactive Platform Tooling](https://developer.lightbend.com/docs/reactive-platform-tooling/latest/).
+
 ## Overview
 
 A Lagom Java example showcasing a Twitter-like application
