@@ -23,7 +23,7 @@ A Lagom Java example showcasing a Twitter-like application
 
 ##### Install reactive-cli
 
-See [Tooling Documentation](https://s3-us-west-2.amazonaws.com/rp-tooling-temp-docs/deployment-setup.html#install-the-cli)
+See [Reactive Platform Tooling Documentation](https://developer.lightbend.com/docs/reactive-platform-tooling/latest/#install-the-cli)
 
 Ensure you're using `reactive-cli` 0.9.0 or newer. You can check the version with `rp version`.
 
