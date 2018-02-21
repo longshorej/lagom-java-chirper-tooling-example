@@ -6,7 +6,7 @@ It's a Lagom Java example showcasing a Twitter-like application
 
 ## Local JVM
 
-* Start all services using `mvn lagom:runAll` or `sbt runAll`.
+* Start all services using `sbt runAll`.
 
 ## Minikube
 
