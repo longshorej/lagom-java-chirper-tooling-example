@@ -1,6 +1,6 @@
 # lagom-java-chirper-example
 
-This project is an example for [Lightbend Reactive Platform Tooling](https://developer.lightbend.com/docs/reactive-platform-tooling/latest/).
+This project is an example for [Lightbend Orchestration for Kubernetes](https://developer.lightbend.com/docs/lightbend-orchestration-kubernetes/latest/).
 
 It's a Lagom Java example showcasing a Twitter-like application
 
@@ -23,7 +23,7 @@ It's a Lagom Java example showcasing a Twitter-like application
 
 ##### Install reactive-cli
 
-See [Reactive Platform Tooling Documentation](https://developer.lightbend.com/docs/reactive-platform-tooling/latest/#install-the-cli)
+See [Lightbend Orchestration for Kubernetes Documentation](https://developer.lightbend.com/docs/lightbend-orchestration-kubernetes/latest/cli-installation.html#install-the-cli)
 
 Ensure you're using `reactive-cli` 0.9.0 or newer. You can check the version with `rp version`.
 
