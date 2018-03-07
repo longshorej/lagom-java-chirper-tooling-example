@@ -167,7 +167,6 @@ rp generate-kubernetes-resources "front-end:1.0.0-SNAPSHOT" \
   
 # deploy ingress
 rp generate-kubernetes-resources \
-  --ingress-path-suffix '*' \
   --generate-ingress --ingress-name chirper \
   "chirp-impl:1.0.0-SNAPSHOT" \
   "friend-impl:1.0.0-SNAPSHOT" \
