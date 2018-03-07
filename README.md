@@ -143,7 +143,6 @@ rp generate-kubernetes-resources "chirp-impl:1.0.0-SNAPSHOT" \
   --generate-pod-controllers --generate-services \
   --env JAVA_OPTS="-Dplay.http.secret.key=$chirp_secret -Dplay.filters.hosts.allowed.0=$allowed_host" \
   --external-service "cas_native=$cassandra_svc" \
-  --service-type NodePort \
   --pod-controller-replicas 2 | kubectl apply -f -
 
 # deploy friend-impl
@@ -170,10 +169,10 @@ rp generate-kubernetes-resources "front-end:1.0.0-SNAPSHOT" \
 rp generate-kubernetes-resources \
   --ingress-path-suffix '*' \
   --generate-ingress --ingress-name chirper \
-  "$registry/chirp-impl:1.0.0-SNAPSHOT" \
-  "$registry/friend-impl:1.0.0-SNAPSHOT" \
-  "$registry/activity-stream-impl:1.0.0-SNAPSHOT" \
-  "$registry/front-end:1.0.0-SNAPSHOT" | kubectl apply -f -
+  "chirp-impl:1.0.0-SNAPSHOT" \
+  "friend-impl:1.0.0-SNAPSHOT" \
+  "activity-stream-impl:1.0.0-SNAPSHOT" \
+  "front-end:1.0.0-SNAPSHOT" | kubectl apply -f -
 ```
 
 #### 3. Verify Deployment
